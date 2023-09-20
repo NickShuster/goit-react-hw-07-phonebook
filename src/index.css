@@ -1,4 +1,4 @@
-@import-normalize; /* bring in normalize.css styles */
+@import 'normalize.css';
 
 body {
   margin: 0;
@@ -12,4 +12,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.label-text {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.contact-input {
+  margin-bottom: 8px;
+}
+
+.add-button {
+  margin-top: 8px;
 }

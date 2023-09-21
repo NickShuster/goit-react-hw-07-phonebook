@@ -5,13 +5,14 @@ const initialState = {
   items: [],
   isLoading: false,
   error: null,
+  filter: '',
 };
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/contacts'); // Вам потрібно замінити цей URL на свій бекенд URL
+      const response = await axios.get('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts'); // Поміняйте URL на свій бекенд URL
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -23,7 +24,7 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contactData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/contacts', contactData); // Вам потрібно замінити цей URL на свій бекенд URL
+      const response = await axios.post('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts', contactData); // Поміняйте URL на свій бекенд URL
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -35,7 +36,7 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, { rejectWithValue }) => {
     try {
-      await axios.delete(`/contacts/${contactId}`); // Вам потрібно замінити цей URL на свій бекенд URL
+      await axios.delete(`https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts/${contactId}`); // Поміняйте URL на свій бекенд URL
       return contactId;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -46,7 +47,11 @@ export const deleteContact = createAsyncThunk(
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
@@ -69,5 +74,7 @@ const contactsSlice = createSlice({
       });
   },
 });
+
+export const { setFilter } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

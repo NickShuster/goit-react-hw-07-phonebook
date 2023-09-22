@@ -12,7 +12,7 @@ export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts'); // Поміняйте URL на свій бекенд URL
+      const response = await axios.get('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -24,7 +24,7 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contactData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts', contactData); // Поміняйте URL на свій бекенд URL
+      const response = await axios.post('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts', contactData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -36,7 +36,7 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, { rejectWithValue }) => {
     try {
-      await axios.delete(`https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts/${contactId}`); // Поміняйте URL на свій бекенд URL
+      await axios.delete(`https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts/${contactId}`);
       return contactId;
     } catch (error) {
       return rejectWithValue(error.response.data);

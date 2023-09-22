@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import  store  from './Redux/store';
+import store from './Redux/store';
 import ContactForm from './ContactForm/ContactForm';
-import Filter from './Filter/Filter'; 
+import Filter from './Filter/Filter';
 
 const App = () => {
   return (

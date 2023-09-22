@@ -15,13 +15,18 @@ const Filter = () => {
 
   const handleDeleteContact = (contactId) => {
     dispatch(deleteContact(contactId))
-      .then(() => {
-        // Optional: Handle successful deletion if needed.
+      .unwrap()
+      .then((contactId) => {
+        console.log(`Contact with ID ${contactId} has been deleted.`);
       })
       .catch((error) => {
         console.error('Error deleting contact:', error);
       });
   };
+
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div>
@@ -30,16 +35,12 @@ const Filter = () => {
         <input type="text" value={inputValue} onChange={handleFilterChange} />
       </label>
       <ul>
-        {contacts
-          .filter((contact) =>
-            contact.name.toLowerCase().includes(inputValue.toLowerCase())
-          )
-          .map((contact) => (
-            <li key={contact.id}>
-              {contact.name}: {contact.number}
-              <button onClick={() => handleDeleteContact(contact.id)}>Delete</button>
-            </li>
-          ))}
+        {filteredContacts.map((contact) => (
+          <li key={contact.id}>
+            {contact.name}: {contact.number}
+            <button onClick={() => handleDeleteContact(contact.id)}>Delete</button>
+          </li>
+        ))}
       </ul>
     </div>
   );

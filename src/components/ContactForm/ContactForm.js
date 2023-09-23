@@ -5,7 +5,6 @@ import { addContact } from '../Redux/contactsSlice';
 const ContactForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.contacts.isLoading);
-  const error = useSelector((state) => state.contacts.error);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -33,7 +32,7 @@ const ContactForm = () => {
         setNumber('');
       })
       .catch((error) => {
-        console.error('Error adding contact:', error);
+        alert(error.message);
       });
   };
 
@@ -56,7 +55,6 @@ const ContactForm = () => {
           {isLoading ? 'Adding...' : 'Add Contact'}
         </button>
       </div>
-      {error && <p>{error}</p>}
     </form>
   );
 };

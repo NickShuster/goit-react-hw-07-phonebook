@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import * as api from '../api';
 
 const initialState = {
   items: [],
@@ -8,41 +8,32 @@ const initialState = {
   filter: '',
 };
 
-export const fetchContacts = createAsyncThunk(
-  'contacts/fetchAll',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts');
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, { rejectWithValue }) => {
+  try {
+    const response = await api.fetchContacts();
+    return response;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
-export const addContact = createAsyncThunk(
-  'contacts/addContact',
-  async (contactData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts', contactData);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+export const addContact = createAsyncThunk('contacts/addContact', async (contactData, { rejectWithValue }) => {
+  try {
+    const response = await api.addContact(contactData);
+    return response;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
-export const deleteContact = createAsyncThunk(
-  'contacts/deleteContact',
-  async (contactId, { rejectWithValue }) => {
-    try {
-      await axios.delete(`https://650ad8e1dfd73d1fab09047e.mockapi.io/contacts/${contactId}`);
-      return contactId;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+export const deleteContact = createAsyncThunk('contacts/deleteContact', async (contactId, { rejectWithValue }) => {
+  try {
+    await api.deleteContact(contactId);
+    return contactId;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
 const contactsSlice = createSlice({
   name: 'contacts',

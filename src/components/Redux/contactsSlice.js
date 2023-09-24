@@ -8,6 +8,10 @@ const initialState = {
   filter: '',
 };
 
+const isContactNameUnique = (contacts, name) => {
+  return contacts.every((contact) => contact.name !== name);
+};
+
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, { rejectWithValue }) => {
   try {
     const response = await api.fetchContacts();
@@ -17,8 +21,13 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, { r
   }
 });
 
-export const addContact = createAsyncThunk('contacts/addContact', async (contactData, { rejectWithValue }) => {
+export const addContact = createAsyncThunk('contacts/addContact', async (contactData, { rejectWithValue, getState }) => {
   try {
+    const state = getState();
+    if (!isContactNameUnique(state.contacts.items, contactData.name)) {
+      throw new Error('Contact with this name already exists.');
+    }
+
     const response = await api.addContact(contactData);
     return response;
   } catch (error) {

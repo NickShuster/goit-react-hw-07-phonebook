@@ -5,6 +5,7 @@ import { addContact } from '../Redux/contactsSlice';
 const ContactForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.contacts.isLoading);
+  const contacts = useSelector((state) => state.contacts.items);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -17,23 +18,28 @@ const ContactForm = () => {
     setNumber(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (name.trim() === '' || number.trim() === '') return;
+
+    const isNameUnique = contacts.every((contact) => contact.name !== name);
+    if (!isNameUnique) {
+      alert(`Контакт з ім'ям "${name}" вже існує.`);
+      return;
+    }
 
     const newContact = {
       name,
       number,
     };
 
-    dispatch(addContact(newContact))
-      .then(() => {
-        setName('');
-        setNumber('');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    try {
+      await dispatch(addContact(newContact));
+      setName('');
+      setNumber('');
+    } catch (error) {
+      alert(`Помилка під час додавання контакту: ${error.message}`);
+    }
   };
 
   return (
@@ -52,7 +58,7 @@ const ContactForm = () => {
       </div>
       <div>
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Adding...' : 'Add Contact'}
+          {isLoading ? 'Додавання...' : 'Додати контакт'}
         </button>
       </div>
     </form>

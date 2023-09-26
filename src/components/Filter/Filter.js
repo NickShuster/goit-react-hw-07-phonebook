@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from '../Redux/filterSlice';
-import { deleteContact } from '../Redux/contactsSlice';
+import { deleteContact } from '../Redux/operations';
 
 const Filter = () => {
   const contacts = useSelector((state) => state.contacts.items) || [];
@@ -38,7 +38,7 @@ const Filter = () => {
       <ul>
         {filteredContacts.map((contact) => (
           <li key={contact.id}>
-            {contact.name}: {contact.number}
+            {contact.name}: {contact.phone}
             <button onClick={() => handleDeleteContact(contact.id)}>Delete</button>
           </li>
         ))}

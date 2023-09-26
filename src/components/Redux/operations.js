@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../api';
-import { isContactNameUnique } from '../utils'; 
+
+export const isContactNameUnique = (contacts, name) => {
+  return contacts.every((contact) => contact.name !== name);
+};
 
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, { rejectWithValue }) => {
   try {

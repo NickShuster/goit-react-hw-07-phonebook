@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../Redux/contactsSlice';
+import { addContact } from '../Redux/operations';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -8,19 +8,19 @@ const ContactForm = () => {
   const contacts = useSelector((state) => state.contacts.items);
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState(''); 
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
-  const handleNumberChange = (event) => {
-    setNumber(event.target.value);
+  const handlePhoneChange = (event) => { 
+    setPhone(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (name.trim() === '' || number.trim() === '') return;
+    if (name.trim() === '' || phone.trim() === '') return;
 
     const isNameUnique = contacts.every((contact) => contact.name !== name);
     if (!isNameUnique) {
@@ -30,13 +30,13 @@ const ContactForm = () => {
 
     const newContact = {
       name,
-      number,
+      phone,
     };
 
     try {
       await dispatch(addContact(newContact));
       setName('');
-      setNumber('');
+      setPhone('');
     } catch (error) {
       alert(`Помилка під час додавання контакту: ${error.message}`);
     }
@@ -52,8 +52,8 @@ const ContactForm = () => {
       </div>
       <div>
         <label>
-          Phone Number:
-          <input type="text" value={number} onChange={handleNumberChange} />
+          Phone Number: 
+          <input type="text" value={phone} onChange={handlePhoneChange} /> 
         </label>
       </div>
       <div>
